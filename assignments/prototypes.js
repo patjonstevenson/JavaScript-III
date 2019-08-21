@@ -193,7 +193,7 @@ const thor = new Hero({
   name: "Thor",
   team: "Asgard",
   weapons: ["Mjolnir"],
-  language: "Common Tongue"
+  language: "Proto-Indo-European"
 });
 
 // Create villain
@@ -208,7 +208,7 @@ const loki = new Villain({
   name: "Loki",
   team: "Mage Guild",
   weapons: ["Scepter"],
-  language: "Common Tongue"
+  language: "Proto-Indo-European"
 });
 
 console.log("\n\n");
