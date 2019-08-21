@@ -22,7 +22,7 @@ function GameObject(obj) {
 }
 
 GameObject.prototype.destroy = function() {
-  return `${this.name} was removed from the game.`;
+  console.log(`${this.name} was removed from the game.`);
 };
 
 /*
@@ -38,8 +38,18 @@ function CharacterStats(obj) {
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
-CharacterStats.prototype.takeDamage = function() {
-  return `${this.name} took damage!`;
+CharacterStats.prototype.takeDamage = function(damage) {
+  this.healthPoints -= damage;
+
+  console.log(`${this.name} took ${damage} damage!`);
+  if (this.healthPoints < 0) {
+    console.log(`${this.name}'s health has dropped below zero!`);
+  } else {
+    console.log(`${this.name} has ${this.healthPoints} health remaining.`);
+  }
+  if (this.healthPoints <= 0) {
+    this.destroy();
+  }
 };
 
 /*
@@ -146,10 +156,10 @@ Hero.prototype.attack = function(target, damage) {
       target.name
     }! What a fine day!`
   );
-  console.log(target.takeDamage());
-  target.healthPoints -= damage;
-  //this.takeDamage.call(target);
-  //this.healthPoints.call(target) -= damage;
+  target.takeDamage(damage);
+  if (target.healthPoints <= 0) {
+    console.log(`${this.name} has defeated ${target.name}! Tremendous!!`);
+  }
 };
 
 // VILLAIN
@@ -165,10 +175,10 @@ Villain.prototype.attack = function(target, damage) {
       target.name
     }! How horrible!`
   );
-  console.log(target.takeDamage());
-  target.healthPoints -= damage;
-  //this.takeDamage.call(target);
-  //this.healthPoints.call(target) -= damage;
+  target.takeDamage(damage);
+  if (target.healthPoints <= 0) {
+    console.log(`${this.name} has defeated ${target.name}! What a tragedy!!`);
+  }
 };
 
 // Create hero
@@ -207,9 +217,12 @@ console.log("\n\n");
 console.log(`${thor.name} and ${loki.name} begin to do battle!`);
 console.log(`${loki.name} starting health: ${loki.healthPoints}.`);
 console.log(`${thor.name} starting health: ${thor.healthPoints}.`);
+console.log("\n");
 
 thor.attack(loki, 50);
-console.log(`${loki.name} health after attack: ${loki.healthPoints}.`);
+console.log("\n");
 
-thor.attack(thor, 30);
-console.log(`${thor.name} health after attack: ${thor.healthPoints}.`);
+loki.attack(thor, 30);
+console.log("\n");
+
+thor.attack(loki, 50);
