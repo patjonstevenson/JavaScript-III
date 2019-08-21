@@ -15,14 +15,14 @@ console.log(this);
 
 // Principle 2
 // code example for Implicit Binding
-const jackson = {
-  name: "jackson",
-  sound: "woof!",
+const ravi = {
+  name: "Ravi",
+  sound: "mrooow!",
   speak: function() {
     return `${this.name} says ${this.sound}`;
   }
 };
-console.log(jackson.speak());
+console.log(ravi.speak());
 
 // Principle 3
 // code example for New Binding
@@ -40,5 +40,7 @@ console.log(madeline.speak());
 // Principle 4
 // code example for Explicit Binding
 const patrick = new Person({ name: "Patrick", age: 28 });
+console.log(`${patrick.name} speaking:`);
 console.log(patrick.speak());
+console.log(`${patrick.name} speaking for ${madeline.name}:`);
 console.log(patrick.speak.call(madeline));
