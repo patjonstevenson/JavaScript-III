@@ -39,7 +39,7 @@ function CharacterStats(obj) {
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
 CharacterStats.prototype.takeDamage = function() {
-  return `${this} took damage`;
+  return `${this.name} took damage!`;
 };
 
 /*
@@ -62,7 +62,7 @@ function Humanoid(obj) {
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function() {
-  return `${this} offers a greeting in ${this.language}.`;
+  return `${this.name} offers a greeting in ${this.language}.`;
 };
 
 /*
@@ -115,6 +115,8 @@ const archer = new Humanoid({
   language: "Elvish"
 });
 
+console.log("\n\n\nprototypes.js\n\n");
+
 console.log(mage.createdAt); // Today's date
 console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
 console.log(swordsman.healthPoints); // 15
@@ -130,3 +132,84 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+// HERO
+function Hero(obj) {
+  Humanoid.call(this, obj);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.attack = function(target, damage) {
+  console.log(
+    `Heroic ${this.name} uses ${this.weapons} to attack ${
+      target.name
+    }! What a fine day!`
+  );
+  console.log(target.takeDamage());
+  target.healthPoints -= damage;
+  //this.takeDamage.call(target);
+  //this.healthPoints.call(target) -= damage;
+};
+
+// VILLAIN
+function Villain(obj) {
+  Humanoid.call(this, obj);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
+Villain.prototype.attack = function(target, damage) {
+  console.log(
+    `Villainous ${this.name} uses ${this.weapons} to attack ${
+      target.name
+    }! How horrible!`
+  );
+  console.log(target.takeDamage());
+  target.healthPoints -= damage;
+  //this.takeDamage.call(target);
+  //this.healthPoints.call(target) -= damage;
+};
+
+// Create hero
+const thor = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 4
+  },
+  healthPoints: 100,
+  name: "Thor",
+  team: "Asgard",
+  weapons: ["Mjolnir"],
+  language: "Common Tongue"
+});
+
+// Create villain
+const loki = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 1,
+    height: 4
+  },
+  healthPoints: 90,
+  name: "Loki",
+  team: "Mage Guild",
+  weapons: ["Scepter"],
+  language: "Common Tongue"
+});
+
+console.log("\n\n");
+
+// THOR VS LOKI BATTLE BEGINS
+console.log(`${thor.name} and ${loki.name} begin to do battle!`);
+console.log(`${loki.name} starting health: ${loki.healthPoints}.`);
+console.log(`${thor.name} starting health: ${thor.healthPoints}.`);
+
+thor.attack(loki, 50);
+console.log(`${loki.name} health after attack: ${loki.healthPoints}.`);
+
+thor.attack(thor, 30);
+console.log(`${thor.name} health after attack: ${thor.healthPoints}.`);
